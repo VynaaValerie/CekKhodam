@@ -73,8 +73,13 @@ To set up this project locally, follow these steps:
 ## Contact
 
 For any questions or feedback, feel free to contact the developer at:
-- Email: dev@example.com
-
+- Email: vynaavalerie@gmail.com
+- WhatsApp: 6282389924037
+## Thanks to
+• Vynaa
+• Xwby
+• Araa
+• Nalaa
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
