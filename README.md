@@ -29,7 +29,7 @@ To set up this project locally, follow these steps:
 
 1. **Clone the repository**:
     ```sh
-    git clone https://github.com/your-username/cek-khodam.git
+    git clone https://github.com/VynaaValerie/cek-khodam.git
     ```
 2. **Navigate to the project directory**:
     ```sh
