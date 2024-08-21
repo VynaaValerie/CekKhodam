@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Display</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #2e2e2e;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #3c3c3c;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            text-align: center;
+            color: #ff69b4; /* Pink color */
+        }
+        h2 {
+            color: #e0e0e0;
+            border-bottom: 1px solid #444;
+            padding-bottom: 5px;
+        }
+        textarea {
+            width: 100%;
+            height: 300px;
+            background: #1e1e1e;
+            color: #dcdcdc;
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 14px;
+            overflow: auto;
+            margin-bottom: 10px;
+        }
+        .buttons {
+            margin-top: 10px;
+        }
+        .copy-button {
+            display: block;
+            background-color: #ff69b4; /* Pink color */
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            margin: 5px 0;
+            width: 100%;
+        }
+        .copy-button:hover {
+            background-color: #ff85c0; /* Lighter pink */
+        }
+        .copy-button:active {
+            background-color: #ff49a0; /* Darker pink */
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 14px;
+            color: #666;
+            border-top: 1px solid #444;
+        }
+        footer a {
+            color: #ff69b4; /* Pink color */
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        /* Notification styling */
+        #notification {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ff69b4; /* Pink color */
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        if (window.history.pushState) {
+            window.history.pushState(null, null, '/source/sc');
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Code Display</h1>
+
+        <h2>TypeScript</h2>
+        <textarea id="typescript-code" readonly>
+            import { WASocket, proto } from '@adiwajshing/baileys';
+
+            type HandlerParams = {
+                conn: WASocket;
+                text: string;
+                mentionedJid: string[];
+                m: proto.WebMessageInfo;
+            };
+
+            const handler = async ({ conn, m }: HandlerParams) => {
+                const user1 = m.message?.extendedTextMessage?.contextInfo?.mentionedJid?.[0] 
+                    ? m.message.extendedTextMessage.contextInfo.mentionedJid[0]
+                    : m.message?.extendedTextMessage?.contextInfo?.quotedMessage?.conversation
+                    ? m.message.extendedTextMessage.contextInfo.quotedMessage.conversation.replace(/[^0-9]/g, '') + '@s.whatsapp.net'
+                    : undefined;
+
+                const user2 = m.message?.extendedTextMessage?.contextInfo?.mentionedJid?.[1] 
+                    ? m.message.extendedTextMessage.contextInfo.mentionedJid[1]
+                    : undefined;
+
+                if (!user1 || !user2) {
+                    return await conn.sendMessage(m.key.remoteJid!, { text: 'Tag dua nama atau satu tag dan satu kutipan!' });
+                }
+
+                const jodohReasons: string[] = [
+                    "Kalian berdua memiliki kesamaan yang luar biasa dan saling melengkapi.",
+                    "Hubungan kalian penuh dengan pengertian dan saling mendukung.",
+                    "Kalian memiliki chemistry yang kuat dan akan saling melengkapi.",
+                    "Kalian saling memahami satu sama lain tanpa perlu banyak kata.",
+                    "Kalian berdua selalu menemukan cara untuk membuat satu sama lain tersenyum.",
+                    "Kalian memiliki tujuan hidup yang sama dan saling mendukung.",
+                    "Kalian berdua memiliki rasa hormat yang besar satu sama lain.",
+                    "Kalian bisa saling mengandalkan dalam situasi apapun.",
+                    "Kalian selalu merasa nyaman dan aman saat bersama.",
+                    "Kalian berdua selalu tahu bagaimana membuat satu sama lain bahagia.",
+                    "Kalian memiliki ketertarikan yang sama dan dapat menikmatinya bersama.",
+                    "Kalian bisa saling melengkapi dalam banyak hal.",
+                    "Kalian selalu saling mendukung dan memberi semangat.",
+                    "Kalian berdua memiliki cara yang unik dalam menunjukkan cinta.",
+                    "Kalian berbagi banyak kenangan indah bersama.",
+                    "Kalian selalu menemukan cara untuk menyelesaikan masalah bersama.",
+                    "Kalian saling mengerti dan menerima kekurangan satu sama lain."
+                ];
+
+                const tidakReasons: string[] = [
+                    "Meskipun kalian baik, tapi kalian berdua mungkin tidak cocok bersama.",
+                    "Kalian mungkin lebih baik sebagai teman daripada pasangan.",
+                    "Perbedaan kalian terlalu besar untuk diatasi dalam hubungan romantis.",
+                    "Kalian mungkin memiliki visi hidup yang berbeda.",
+                    "Terlalu banyak perbedaan yang membuat hubungan kalian sulit.",
+                    "Kalian mungkin sulit menemukan kesamaan dalam hal penting.",
+                    "Kalian cenderung sering bertengkar dan sulit berkompromi.",
+                    "Kalian mungkin kurang memiliki kesamaan dalam nilai dan prinsip.",
+                    "Kalian mungkin lebih bahagia jika bersama orang lain.",
+                    "Perbedaan kepribadian kalian mungkin sulit untuk dijembatani.",
+                    "Kalian mungkin sulit berkomunikasi secara efektif.",
+                    "Kalian mungkin kurang bisa saling memahami kebutuhan satu sama lain.",
+                    "Kalian mungkin lebih baik menjalani hidup masing-masing.",
+                    "Kalian mungkin kurang memiliki kompatibilitas dalam jangka panjang.",
+                    "Kalian mungkin kurang memiliki kesamaan dalam hal penting.",
+                    "Kalian mungkin sulit untuk sepakat dalam hal penting."
+                ];
+
+                const result = pickRandom(["JODOH", "TIDAK"]);
+                const reason = result === "JODOH" ? pickRandom(jodohReasons) : pickRandom(tidakReasons);
+
+                await conn.sendMessage(m.key.remoteJid!, {
+                    text: `
+            CEK JODOH
+
+            • Nama 1: @${user1.split('@')[0]}
+            • Nama 2: @${user2.split('@')[0]}
+            • Hasil: ${result}
+            • Alasan: ${reason}
+            `.trim(),
+                    mentions: [user1, user2]
+                });
+            };
+
+            export default handler;
+            function pickRandom(list) {
+                return list[Math.floor(Math.random() * list.length)];
+            }
+            //made by pinaa
+        </textarea>
+        <button class="copy-button" onclick="copyCode('typescript-code')">Copy TypeScript</button>
+
+        <h2>ESM</h2>
+        <textarea id="esm-code" readonly>
+            import { WASocket } from '@adiwajshing/baileys';
+
+            export async function handler({ conn, m }) {
+                const user1 = m.message?.extendedTextMessage?.contextInfo?.mentionedJid?.[0] 
+                    ? m.message.extendedTextMessage.contextInfo.mentionedJid[0]
+                    : m.message?.extendedTextMessage?.contextInfo?.quotedMessage?.conversation
+                    ? m.message.extendedTextMessage.contextInfo.quotedMessage.conversation.replace(/[^0-9]/g, '') + '@s.whatsapp.net'
+                    : undefined;
+
+                const user2 = m.message?.extendedTextMessage?.contextInfo?.mentionedJid?.[1] 
+                    ? m.message.extendedTextMessage.contextInfo.mentionedJid[1]
+                    : undefined;
+
+                if (!user1 || !user2) {
+                    return await conn.sendMessage(m.key.remoteJid!, { text: 'Tag dua nama atau satu tag dan satu kutipan!' });
+                }
+
+                const jodohReasons = [
+                    "Kalian berdua memiliki kesamaan yang luar biasa dan saling melengkapi.",
+                    "Hubungan kalian penuh dengan pengertian dan saling mendukung.",
+                    "Kalian memiliki chemistry yang kuat dan akan saling melengkapi.",
+                    "Kalian saling memahami satu sama lain tanpa perlu banyak kata.",
+                    "Kalian berdua selalu menemukan cara untuk membuat satu sama lain tersenyum.",
+                    "Kalian memiliki tujuan hidup yang sama dan saling mendukung.",
+                    "Kalian berdua memiliki rasa hormat yang besar satu sama lain.",
+                    "Kalian bisa saling mengandalkan dalam situasi apapun.",
+                    "Kalian selalu merasa nyaman dan aman saat bersama.",
+                    "Kalian berdua selalu tahu bagaimana membuat satu sama lain bahagia.",
+                    "Kalian memiliki ketertarikan yang sama dan dapat menikmatinya bersama.",
+                    "Kalian bisa saling melengkapi dalam banyak hal.",
+                    "Kalian selalu saling mendukung dan memberi semangat.",
+                    "Kalian berdua memiliki cara yang unik dalam menunjukkan cinta.",
+                    "Kalian berbagi banyak kenangan indah bersama.",
+                    "Kalian selalu menemukan cara untuk menyelesaikan masalah bersama.",
+                    "Kalian saling mengerti dan menerima kekurangan satu sama lain."
+                ];
+
+                const tidakReasons = [
+                    "Meskipun kalian baik, tapi kalian berdua mungkin tidak cocok bersama.",
+                    "Kalian mungkin lebih baik sebagai teman daripada pasangan.",
+                    "Perbedaan kalian terlalu besar untuk diatasi dalam hubungan romantis.",
+                    "Kalian mungkin memiliki visi hidup yang berbeda.",
+                    "Terlalu banyak perbedaan yang membuat hubungan kalian sulit.",
+                    "Kalian mungkin sulit menemukan kesamaan dalam hal penting.",
+                    "Kalian cenderung sering bertengkar dan sulit berkompromi.",
+                    "Kalian mungkin kurang memiliki kesamaan dalam nilai dan prinsip.",
+                    "Kalian mungkin lebih bahagia jika bersama orang lain.",
+                    "Perbedaan kepribadian kalian mungkin sulit untuk dijembatani.",
+                    "Kalian mungkin sulit berkomunikasi secara efektif.",
+                    "Kalian mungkin kurang bisa saling memahami kebutuhan satu sama lain.",
+                    "Kalian mungkin lebih baik menjalani hidup masing-masing.",
+                    "Kalian mungkin kurang memiliki kompatibilitas dalam jangka panjang.",
+                    "Kalian mungkin kurang memiliki kesamaan dalam hal penting.",
+                    "Kalian mungkin sulit untuk sepakat dalam hal penting."
+                ];
+
+                const result = pickRandom(["JODOH", "TIDAK"]);
+                const reason = result === "JODOH" ? pickRandom(jodohReasons) : pickRandom(tidakReasons);
+
+                await conn.sendMessage(m.key.remoteJid!, {
+                    text: `
+            CEK JODOH
+
+            • Nama 1: @${user1.split('@')[0]}
+            • Nama 2: @${user2.split('@')[0]}
+            • Hasil: ${result}
+            • Alasan: ${reason}
+            `.trim(),
+                    mentions: [user1, user2]
+                });
+            };
+
+            function pickRandom(list) {
+                return list[Math.floor(Math.random() * list.length)];
+            }
+            //made by pinaa
+        </textarea>
+        <button class="copy-button" onclick="copyCode('esm-code')">Copy ESM</button>
+
+        <h2>CJS</h2>
+        <textarea id="cjs-code" readonly>
+            const { WASocket } = require('@adiwajshing/baileys');
+
+            const handler = async ({ conn, m }) => {
+                const user1 = m.message?.extendedTextMessage?.contextInfo?.mentionedJid?.[0] 
+                    ? m.message.extendedTextMessage.contextInfo.mentionedJid[0]
+                    : m.message?.extendedTextMessage?.contextInfo?.quotedMessage?.conversation
+                    ? m.message.extendedTextMessage.contextInfo.quotedMessage.conversation.replace(/[^0-9]/g, '') + '@s.whatsapp.net'
+                    : undefined;
+
+                const user2 = m.message?.extendedTextMessage?.contextInfo?.mentionedJid?.[1] 
+                    ? m.message.extendedTextMessage.contextInfo.mentionedJid[1]
+                    : undefined;
+
+                if (!user1 || !user2) {
+                    return await conn.sendMessage(m.key.remoteJid!, { text: 'Tag dua nama atau satu tag dan satu kutipan!' });
+                }
+
+                const jodohReasons = [
+                    "Kalian berdua memiliki kesamaan yang luar biasa dan saling melengkapi.",
+                    "Hubungan kalian penuh dengan pengertian dan saling mendukung.",
+                    "Kalian memiliki chemistry yang kuat dan akan saling melengkapi.",
+                    "Kalian saling memahami satu sama lain tanpa perlu banyak kata.",
+                    "Kalian berdua selalu menemukan cara untuk membuat satu sama lain tersenyum.",
+                    "Kalian memiliki tujuan hidup yang sama dan saling mendukung.",
+                    "Kalian berdua memiliki rasa hormat yang besar satu sama lain.",
+                    "Kalian bisa saling mengandalkan dalam situasi apapun.",
+                    "Kalian selalu merasa nyaman dan aman saat bersama.",
+                    "Kalian berdua selalu tahu bagaimana membuat satu sama lain bahagia.",
+                    "Kalian memiliki ketertarikan yang sama dan dapat menikmatinya bersama.",
+                    "Kalian bisa saling melengkapi dalam banyak hal.",
+                    "Kalian selalu saling mendukung dan memberi semangat.",
+                    "Kalian berdua memiliki cara yang unik dalam menunjukkan cinta.",
+                    "Kalian berbagi banyak kenangan indah bersama.",
+                    "Kalian selalu menemukan cara untuk menyelesaikan masalah bersama.",
+                    "Kalian saling mengerti dan menerima kekurangan satu sama lain."
+                ];
+
+                const tidakReasons = [
+                    "Meskipun kalian baik, tapi kalian berdua mungkin tidak cocok bersama.",
+                    "Kalian mungkin lebih baik sebagai teman daripada pasangan.",
+                    "Perbedaan kalian terlalu besar untuk diatasi dalam hubungan romantis.",
+                    "Kalian mungkin memiliki visi hidup yang berbeda.",
+                    "Terlalu banyak perbedaan yang membuat hubungan kalian sulit.",
+                    "Kalian mungkin sulit menemukan kesamaan dalam hal penting.",
+                    "Kalian cenderung sering bertengkar dan sulit berkompromi.",
+                    "Kalian mungkin kurang memiliki kesamaan dalam nilai dan prinsip.",
+                    "Kalian mungkin lebih bahagia jika bersama orang lain.",
+                    "Perbedaan kepribadian kalian mungkin sulit untuk dijembatani.",
+                    "Kalian mungkin sulit berkomunikasi secara efektif.",
+                    "Kalian mungkin kurang bisa saling memahami kebutuhan satu sama lain.",
+                    "Kalian mungkin lebih baik menjalani hidup masing-masing.",
+                    "Kalian mungkin kurang memiliki kompatibilitas dalam jangka panjang.",
+                    "Kalian mungkin kurang memiliki kesamaan dalam hal penting.",
+                    "Kalian mungkin sulit untuk sepakat dalam hal penting."
+                ];
+
+                const result = pickRandom(["JODOH", "TIDAK"]);
+                const reason = result === "JODOH" ? pickRandom(jodohReasons) : pickRandom(tidakReasons);
+
+                await conn.sendMessage(m.key.remoteJid!, {
+                    text: `
+            CEK JODOH
+
+            • Nama 1: @${user1.split('@')[0]}
+            • Nama 2: @${user2.split('@')[0]}
+            • Hasil: ${result}
+            • Alasan: ${reason}
+            `.trim(),
+                    mentions: [user1, user2]
+                });
+            };
+
+            function pickRandom(list) {
+                return list[Math.floor(Math.random() * list.length)];
+            }
+
+            module.exports = handler;
+            //made by pinaa
+        </textarea>
+        <button class="copy-button" onclick="copyCode('cjs-code')">Copy CJS</button>
+    </div>
+
+    <footer>
+        <p>Created by <a href="https://github.com/VynaaValerie" target="_blank">VynaaValerie</a></p>
+    </footer>
+
+    <div id="notification">Code copied to clipboard!</div>
+
+    <script>
+        function copyCode(id) {
+            const code = document.getElementById(id);
+            code.select();
+            document.execCommand('copy');
+
+            const notification = document.getElementById('notification');
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 2000); // Show notification for 2 seconds
+        }
+    </script>
+</body>
+</html>
