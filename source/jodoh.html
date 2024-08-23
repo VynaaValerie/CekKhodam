@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Jodoh</title>
+    <link rel="icon" href="https://telegra.ph/file/10de3bf6e5b1b90afaf6c.jpg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                background-image: url('/media/dekstop.jpg');
+            }
+        }
+
+        @media (max-width: 767px) {
+            body {
+                background-image: url('/media/mobile.jpg');
+            }
+        }
+
+        .container {
+            background-color: rgba(255, 102, 102, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 10px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        button {
+            background-color: #cc0000;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            outline: none;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #b30000;
+        }
+
+        .loading {
+            display: none;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .result {
+            color: white;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        /* Tombol Sidebar */
+        .sidebar-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #cc0000;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        /* Menu Sidebar */
+        .sidebar-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            z-index: 99;
+        }
+
+        .sidebar-menu a {
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 20px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: #575757;
+        }
+
+        /* Efek Salju */
+        .snowflake {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        @keyframes sway {
+            0% {
+                transform: translateX(0px);
+            }
+            50% {
+                transform: translateX(20px);
+            }
+            100% {
+                transform: translateX(-20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Tombol Sidebar -->
+    <div class="sidebar-btn" onclick="openSidebar()">☰</div>
+    <!-- Menu Sidebar -->
+    <div id="sidebar-menu" class="sidebar-menu">
+        <a href="https://saweria.co/Vynaabot" onclick="closeSidebar()">Donasi</a>
+        <a href="https://www.biolink.fun" onclick="closeSidebar()">Store</a>
+        <a href="jodoh.json" onclick="closeSidebar()">Doc</a>
+        <a href="/source/sc.html" onclick="closeSidebar()">Source</a>
+        <a href="/source/khodam.html" onclick="closeSidebar()">Cek Khodam</a>
+        <a href="/source/tolol.html" onclick="closeSidebar()">Cek Tolol</a>
+        <a href="https://t.me/tempatgabutmuhhh" onclick="closeSidebar()">About Us</a>
+        <a href="https://example.com/contact" onclick="closeSidebar()">Contact</a>
+        <a href="https://example.com/faq" onclick="closeSidebar()">FAQ</a>
+        <a href="https://example.com/blog" onclick="closeSidebar()">Blog</a>
+    </div>
+
+    <div class="container">
+        <h1>💗 Cek Jodoh 💗</h1>
+        <input type="text" id="nama1" placeholder="Masukkan Nama Pertama">
+        <input type="text" id="nama2" placeholder="Masukkan Nama Kedua">
+        <button onclick="cekJodoh()">Cek Jodoh</button>
+        <div class="loading" id="loading">Loading...</div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script src="textjodoh.js"></script>
+    <script>
+        function openSidebar() {
+            document.getElementById("sidebar-menu").style.width = "250px";
+        }
+
+        function closeSidebar() {
+            document.getElementById("sidebar-menu").style.width = "0";
+        }
+
+        function pickRandom(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function cekJodoh() {
+            const nama1 = document.getElementById("nama1").value.trim();
+            const nama2 = document.getElementById("nama2").value.trim();
+            const loading = document.getElementById("loading");
+            const result = document.getElementById("result");
+
+            if (!nama1 || !nama2) {
+                result.innerHTML = "Isi kedua nama terlebih dahulu!";
+                return;
+            }
+
+            loading.style.display = "block";
+            result.innerHTML = "";
+
+            setTimeout(() => {
+                const resultType = pickRandom(["JODOH", "TIDAK"]);
+                const reason = resultType === "JODOH" ? pickRandom(jodohReasons) : pickRandom(tidakReasons);
+
+                loading.style.display = "none";
+                result.innerHTML = `Hasil: ${resultType} - ${reason}`;
+            }, 2000);
+        }
+
+        function createSnowflakes() {
+            const snowflakeCount = 100;
+            for (let i = 0; i < snowflakeCount; i++) {
+                const snowflake = document.createElement("div");
+                snowflake.className = "snowflake";
+                snowflake.style.left = Math.random() * 100 + "vw";
+                snowflake.style.top = Math.random() * 100 + "vh";
+                snowflake.style.width = Math.random() * 10 + 5 + "px";
+                snowflake.style.height = snowflake.style.width;
+                snowflake.style.animation = `fall ${Math.random() * 10 + 10}s linear infinite, sway ${Math.random() * 3 + 3}s ease-in-out infinite`;
+                document.body.appendChild(snowflake);
+            }
+        }
+
+        // Tutup sidebar ketika klik di luar sidebar
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar-menu');
+            if (sidebar.style.width === '250px' && !event.target.closest('.sidebar-btn') && !event.target.closest('.sidebar-menu')) {
+                closeSidebar();
+            }
+        });
+
+        createSnowflakes();
+    </script>
+</body>
+</html>
