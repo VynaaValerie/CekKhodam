@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Tolol Game</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #ff6347;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 10px;
+            border: 2px solid #ff6347;
+            width: 300px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #ff4500;
+        }
+        .result, .loading {
+            margin-top: 30px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff4500;
+        }
+        .loading {
+            display: none;
+        }
+        .loading span {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>Cek Seberapa Tolol Kamu!</h1>
+    <input type="text" id="nama" placeholder="Masukkan nama kamu">
+    <button onclick="cekTolol()">Cek Tolol!</button>
+    <div class="loading" id="loading">
+        <span>🔄</span> Sedang menghitung...
+    </div>
+    <div class="result" id="result"></div>
+
+    <script src="/texttolol.js"></script>
+</body>
+</html>
